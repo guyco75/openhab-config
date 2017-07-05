@@ -24,12 +24,12 @@ end
 
 rule "Boiler settings update"
   when
-    Item boiler_p received command or
-    Item boiler_h received command or
-    Item boiler_m received command or
-    Item boiler_d received command 
+    Item boiler_p received update or
+    Item boiler_h received update or
+    Item boiler_m received update or
+    Item boiler_d received update
   then
-    logInfo("Boiler", receivedCommand.toString);
+    logInfo("Boiler", boiler_p.state.toString);
 
     if (boiler_timer != null) {
         logInfo("Boiler", "removing timer")
