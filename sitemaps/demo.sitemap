@@ -14,7 +14,7 @@ sitemap demo label="Demo" {
   } 
 
   Frame label="Boiler" {
-    Switch     item=boiler_sw
+    //Switch     item=boiler_sw
     Switch     item=boiler_p                mappings=[0='OFF', 1='ON', 2='TIMER'] visibility=[boiler_sw==OFF]
     Switch     item=boiler_p  icon="switch" mappings=[0='OFF', 1='ON', 2='TIMER'] visibility=[boiler_sw==ON]
     Setpoint   item=boiler_h  minValue=0  maxValue=23  step=1    visibility=[boiler_p==2]
