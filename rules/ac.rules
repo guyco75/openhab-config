@@ -33,14 +33,13 @@ end
 rule "AC Air Conditioner update"
   when
     Item ac_power received command or
-    Item ac_mode  received command or
-    Item ac_temp  received command or
-    Item ac_fan   received command 
+    Item ac_mode  received update or
+    Item ac_temp  received update or
+    Item ac_fan   received update
   then
-    logInfo("Air Conditioner", receivedCommand.toString);
     var String arduino_cmd = "$2,";
    
-    if (receivedCommand == ON || receivedCommand == OFF) {
+    if (receivedCommand == ON) {
       arduino_cmd += "1,";
       ac_i_feel.state = OFF;
     } else {
@@ -48,7 +47,7 @@ rule "AC Air Conditioner update"
     }
     arduino_cmd += ac_mode.state + "," + ac_fan.state + "," + ac_temp.state + ",#";
 
-    logInfo("Air Conditioner", arduino_cmd)
+    logInfo("Air Conditioner", "AC action: " + arduino_cmd)
     sendCommand(Arduino, arduino_cmd);
     //executeCommandLine(command);
 end
