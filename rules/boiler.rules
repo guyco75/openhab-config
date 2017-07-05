@@ -39,10 +39,10 @@ rule "Boiler settings update"
 
     switch (boiler_p.state) {
       case 0:
-	    sendCommand(boiler_sw, OFF)
+	    postUpdate(boiler_sw, OFF)
 
       case 1:
-	    sendCommand(boiler_sw, ON)
+	    postUpdate(boiler_sw, ON)
 
       case 2: {
         logInfo("Boiler", "Set Boiler Timer")
@@ -59,19 +59,19 @@ rule "Boiler settings update"
 
         if (start_time <= nowMin && nowMin < end_time) {
           logInfo("Boiler", "TIMER: ON  |  start_time="+start_time + "  end_time="+end_time + "  nowMin="+nowMin)
-          sendCommand(boiler_sw, ON)
+          postUpdate(boiler_sw, ON)
           var t=now.plusMinutes(end_time-nowMin).withSecondOfMinute(0).withMillisOfSecond(0)
           boiler_timer = createTimer(t) [|
-	        sendCommand(boiler_p, 0)
+	        postUpdate(boiler_p, 0)
 	      ]
         } else {
-          sendCommand(boiler_sw, OFF)
+          postUpdate(boiler_sw, OFF)
 		  if (start_time < nowMin)
 			start_time += 24*60
           logInfo("Boiler", "TIMER: WAIT  |  start_time="+start_time + "  end_time="+end_time + "  nowMin="+nowMin)
           var t=now.plusMinutes(start_time-nowMin).withSecondOfMinute(0).withMillisOfSecond(0)
           boiler_timer = createTimer(t) [|
-	        sendCommand(boiler_p, 2) /// JUST TRIGGER WITHOUT 2!!
+	        postUpdate(boiler_p, 2) /// JUST TRIGGER WITHOUT 2!!
 	      ]
         }
       }
