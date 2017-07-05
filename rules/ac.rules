@@ -1,0 +1,54 @@
+
+rule "AC System Start"
+  when
+    System started
+  then
+    postUpdate(ac_mode, 1);
+    postUpdate(ac_temp, 21);
+    postUpdate(ac_fan, 3);
+end
+
+rule "AC Poll Temp Humid"
+  when
+    Time cron "0 * * ? * *" or
+    System started
+  then
+    //logInfo("Air Conditioner", "send temp/humid query");
+    //sendCommand(Arduino, "$1,#");
+end
+
+rule "AC Arduino message"
+  when
+    Item Arduino received update
+  then
+    logInfo("Air Conditioner", Arduino.state.toString)
+    // TODO: parse string and verify correct format...
+    // TODO: remove quotes "x" from values
+    if (Arduino.state.toString.startsWith("${\"status\":\"0\",\"temperature\":")) {
+      postUpdate(livingTemp01, Arduino.state.toString.split(",").get(1).split(":").get(1).split("\"").get(1));
+      postUpdate(livingHum01, Arduino.state.toString.split(",").get(2).split(":").get(1).split("\"").get(1));
+    }
+end
+
+rule "AC Air Conditioner update"
+  when
+    Item ac_power received command or
+    Item ac_mode  received command or
+    Item ac_temp  received command or
+    Item ac_fan   received command 
+  then
+    logInfo("Air Conditioner", receivedCommand.toString);
+    var String arduino_cmd = "$2,";
+   
+    if (receivedCommand == ON || receivedCommand == OFF) {
+      arduino_cmd += "1,";
+      ac_i_feel.state = OFF;
+    } else {
+      arduino_cmd += "0,";
+    }
+    arduino_cmd += ac_mode.state + "," + ac_fan.state + "," + ac_temp.state + ",#";
+
+    logInfo("Air Conditioner", arduino_cmd)
+    sendCommand(Arduino, arduino_cmd);
+    //executeCommandLine(command);
+end

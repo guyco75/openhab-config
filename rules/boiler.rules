@@ -1,0 +1,83 @@
+
+var Timer boiler_timer = null
+
+rule "Boiler System Start"
+  when
+    System started
+  then
+    postUpdate(boiler_sw, OFF);
+    postUpdate(boiler_p, 0);
+    postUpdate(boiler_h, 17);
+    postUpdate(boiler_m, 0);
+    postUpdate(boiler_d, 120);
+end
+
+rule "Boiler sw state update"
+  when
+    Item boiler_sw changed
+  then
+    if (boiler_sw.state == ON)
+      logInfo("Boiler", "********** Turn Boiler ON")
+    else
+      logInfo("Boiler", "********** Turn Boiler OFF")
+end
+
+rule "Boiler settings update"
+  when
+    Item boiler_p received command or
+    Item boiler_h received command or
+    Item boiler_m received command or
+    Item boiler_d received command 
+  then
+    logInfo("Boiler", receivedCommand.toString);
+
+    if (boiler_timer != null) {
+        logInfo("Boiler", "removing timer")
+        boiler_timer.cancel
+        boiler_timer = null
+    }
+
+    switch (boiler_p.state) {
+      case 0:
+	    sendCommand(boiler_sw, OFF)
+
+      case 1:
+	    sendCommand(boiler_sw, ON)
+
+      case 2: {
+        logInfo("Boiler", "Set Boiler Timer")
+        var int h = (boiler_h.state as DecimalType).intValue
+        var int m = (boiler_m.state as DecimalType).intValue
+        var int d = (boiler_d.state as DecimalType).intValue
+
+        logInfo("Boiler", "h="+h+"  m="+m+"  d="+d)
+		var int start_time = (h*60) + m
+		var int end_time = start_time + d
+        var int nowMin = now.getMinuteOfDay
+        logInfo("Boiler", "start_time="+start_time)
+
+		if (end_time < start_time)
+			end_time += 24*60
+          logInfo("Boiler", "start_time="+start_time + "  end_time="+end_time + "  nowMin="+nowMin)
+
+        if (start_time <= nowMin && nowMin < end_time) {
+          logInfo("Boiler", "TIMER: ON  |  start_time="+start_time + "  end_time="+end_time + "  nowMin="+nowMin)
+          sendCommand(boiler_sw, ON)
+          var t=now.plusMinutes(end_time-nowMin).withSecondOfMinute(0).withMillisOfSecond(0)
+          boiler_timer = createTimer(t) [|
+	        sendCommand(boiler_p, 0)
+	      ]
+        } else {
+          sendCommand(boiler_sw, OFF)
+		  if (start_time < nowMin)
+			start_time += 24*60
+          logInfo("Boiler", "TIMER: WAIT  |  start_time="+start_time + "  end_time="+end_time + "  nowMin="+nowMin)
+          var t=now.plusMinutes(start_time-nowMin).withSecondOfMinute(0).withMillisOfSecond(0)
+          boiler_timer = createTimer(t) [|
+	        sendCommand(boiler_p, 2) /// JUST TRIGGER WITHOUT 2!!
+	      ]
+        }
+      }
+    }
+end
+

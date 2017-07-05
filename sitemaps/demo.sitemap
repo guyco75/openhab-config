@@ -1,0 +1,25 @@
+sitemap demo label="Demo" {
+
+  Frame label="Temperature/Humidity Data" {
+    Text item=livingTemp01
+    Text item=livingHum01
+  }
+
+  Frame label="Air Conditioner" {
+    Switch     item=ac_power  mappings=[ON="Power"]
+    Switch     item=ac_i_feel
+    Switch     item=ac_mode   mappings=[1='COOL', 2='HEAT']
+    Setpoint   item=ac_temp   minValue=16 maxValue=30 step=1 label="Temp [%3d °C]"
+    Switch     item=ac_fan    mappings=[0='@', 1='@@', 2='@@@', 3='AUTO']
+  } 
+
+  Frame label="Boiler" {
+    Switch     item=boiler_sw
+    Switch     item=boiler_p                mappings=[0='OFF', 1='ON', 2='TIMER'] visibility=[boiler_sw==OFF]
+    Switch     item=boiler_p  icon="switch" mappings=[0='OFF', 1='ON', 2='TIMER'] visibility=[boiler_sw==ON]
+    Setpoint   item=boiler_h  minValue=0  maxValue=23  step=1    visibility=[boiler_p==2]
+    Setpoint   item=boiler_m  minValue=0  maxValue=45  step=15   visibility=[boiler_p==2]
+    Setpoint   item=boiler_d  minValue=30 maxValue=240 step=15   visibility=[boiler_p==2]
+  } 
+}
+

@@ -1,0 +1,18 @@
+String   Arduino          "Arduino"                                { autoupdate="false" }
+//String   Arduino          "Arduino"                                { serial="COM6@57600", autoupdate="false" }
+Number   livingTemp01     "Temperature [%.1f °C]"  <temperature> 
+Number   livingHum01      "Humidity [%.1f %%]"     <humidity>
+Switch   Arduino_toggle   "Arduino Toggle"
+
+
+Switch   ac_power         "Power"                  <switch>          (Appliance) { autoupdate="false" }
+Switch   ac_i_feel        "I Feel"                 <smoke>           (Appliance)
+Number   ac_mode          "Mode"                   <settings>        (Appliance)
+Number   ac_temp          "Temperature [%d °C]"    <temperature>     (Appliance)
+Number   ac_fan           "Fan Speed"              <fan>             (Appliance)
+
+Switch   boiler_sw                                                   (Boiler)
+Number   boiler_p         "Power"                  /*<switch>*/          (Boiler)
+Number   boiler_h         "Start (Hours)[%d]"      <clock>           (Boiler)
+Number   boiler_m         "Start (Minutes)[%02d]"  <clock>           (Boiler)
+Number   boiler_d         "Duration[%d]"           <clock>           (Boiler)
