@@ -46,19 +46,16 @@ rule "Boiler settings update"
 
       case 2: {
         logInfo("Boiler", "Set Boiler Timer")
-        var int h = (boiler_h.state as DecimalType).intValue
-        var int m = (boiler_m.state as DecimalType).intValue
-        var int d = (boiler_d.state as DecimalType).intValue
+        var h = (boiler_h.state as DecimalType).intValue
+        var m = (boiler_m.state as DecimalType).intValue
+        var d = (boiler_d.state as DecimalType).intValue
 
-        logInfo("Boiler", "h="+h+"  m="+m+"  d="+d)
-		var int start_time = (h*60) + m
-		var int end_time = start_time + d
-        var int nowMin = now.getMinuteOfDay
-        logInfo("Boiler", "start_time="+start_time)
+        var start_time = h*60 + m
+        var end_time = start_time + d
+        var nowMin = now.getMinuteOfDay
 
-		if (end_time < start_time)
-			end_time += 24*60
-          logInfo("Boiler", "start_time="+start_time + "  end_time="+end_time + "  nowMin="+nowMin)
+        if (end_time < start_time)
+          end_time += 24*60
 
         if (start_time <= nowMin && nowMin < end_time) {
           logInfo("Boiler", "TIMER: ON  |  start_time="+start_time + "  end_time="+end_time + "  nowMin="+nowMin)
