@@ -25,17 +25,25 @@ rule "AC Arduino message"
     // TODO: parse string and verify correct format...
     // TODO: remove quotes "x" from values
     if (Arduino.state.toString.startsWith("${\"status\":\"0\",\"temperature\":")) {
-      postUpdate(livingTemp01, Arduino.state.toString.split(",").get(1).split(":").get(1).split("\"").get(1));
-      postUpdate(livingHum01, Arduino.state.toString.split(",").get(2).split(":").get(1).split("\"").get(1));
+      var t = Arduino.state.toString.split(",").get(1).split(":").get(1).split("\"").get(1);
+      var h = Arduino.state.toString.split(",").get(2).split(":").get(1).split("\"").get(1);
+      postUpdate(livingTemp01, t);
+      postUpdate(livingHum01, h);
+      if (ac_i_feel.state == ON) {
+        var String arduino_cmd = "$2,0," + ac_mode.state + "," + ac_fan.state + ",1,1," + (Float::parseFloat(t)-2).intValue + ",#";
+        logInfo("Air Conditioner", "AC action: " + arduino_cmd)
+        sendCommand(Arduino, arduino_cmd);
+      }
     }
 end
 
 rule "AC Air Conditioner update"
   when
-    Item ac_power received command or
-    Item ac_mode  received update or
-    Item ac_temp  received update or
-    Item ac_fan   received update
+    Item ac_power  received command or
+    Item ac_mode   received update or
+    Item ac_fan    received update or
+    Item ac_i_feel changed or
+    Item ac_temp   received update
   then
     var String arduino_cmd = "$2,";
    
@@ -45,7 +53,13 @@ rule "AC Air Conditioner update"
     } else {
       arduino_cmd += "0,";
     }
-    arduino_cmd += ac_mode.state + "," + ac_fan.state + "," + ac_temp.state + ",#";
+    arduino_cmd += ac_mode.state + "," + ac_fan.state + "," + "0" + ",";
+    if (ac_i_feel.state == ON) {
+        arduino_cmd += "1,";
+    } else {
+        arduino_cmd += "0,";
+    }
+    arduino_cmd += ac_temp.state + ",#";
 
     logInfo("Air Conditioner", "AC action: " + arduino_cmd)
     sendCommand(Arduino, arduino_cmd);
