@@ -1,0 +1,28 @@
+
+rule "Power Off Reveiver"
+  when
+    Item leavingHome received command
+  then
+    logInfo("Power Off", receivedCommand.toString);
+
+    sendCommand(Arduino, "$4,2,#");
+    sendCommand(Arduino, "$5,2,#");
+end
+
+rule "Power Off TV"
+  when
+    Item turnOffTv received command
+  then
+    logInfo("Power Off", receivedCommand.toString);
+
+    sendCommand(Arduino, "$4,2,#");
+end
+
+rule "Power Off Reveiver"
+  when
+    Item turnOffReceiver received command
+  then
+    logInfo("Power Off", receivedCommand.toString);
+
+    sendCommand(Arduino, "$5,2,#");
+end

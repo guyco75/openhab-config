@@ -13,6 +13,12 @@ sitemap demo label="Demo" {
     Switch     item=ac_fan    mappings=[0='@', 1='@@', 2='@@@', 3='AUTO']
   } 
 
+  Frame label="Power Off" {
+    Switch     item=leavingHome      mappings=[1="ALL OFF"]
+    Switch     item=turnOffTv        mappings=[1="TV OFF"]
+    Switch     item=turnOffReceiver  mappings=[1="Receiver OFF"]
+  }
+
   Frame label="Boiler" {
     //Switch     item=boiler_sw
     Switch     item=boiler_p                mappings=[0='OFF', 1='ON', 2='TIMER'] visibility=[boiler_sw==OFF]
