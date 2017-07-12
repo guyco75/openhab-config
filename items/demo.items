@@ -19,6 +19,6 @@ Number   boiler_m         "Start (Minutes)[%02d]"  <clock>           (Boiler)
 Number   boiler_d         "Duration[%d]"           <clock>           (Boiler)
 
 
-Switch   leavingHome      "Leaving Home"           <switch>          (powerOff) { autoupdate="false" }
-Switch   turnOffTv        "Turn Off TV"            <switch>          (powerOff) { autoupdate="false" }
-Switch   turnOffReceiver  "Turn Off Receiver"      <switch>          (powerOff) { autoupdate="false" }
+Number   leavingHome      "Leaving Home"           <switch>          (powerOff) { autoupdate="false" }
+Number   turnOffTv        "Turn Off TV"            <switch>          (powerOff) { autoupdate="false" }
+Number   turnOffReceiver  "Turn Off Receiver"      <switch>          (powerOff) { autoupdate="false" }
