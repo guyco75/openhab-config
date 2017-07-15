@@ -1,5 +1,5 @@
 //String   Arduino          "Arduino"                                { autoupdate="false" }
-String   Arduino          "Arduino"                                { serial="/dev/ttyUSB0@57600", autoupdate="false" }
+String   Arduino          "Arduino"                                { serial="/dev/ttyArduino1@57600", autoupdate="false" }
 Number   livingTemp01     "Temperature [%.1f °C]"  <temperature> 
 Number   livingHum01      "Humidity [%.1f %%]"     <humidity>
 Switch   Arduino_toggle   "Arduino Toggle"
