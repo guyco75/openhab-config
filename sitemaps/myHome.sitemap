@@ -1,4 +1,4 @@
-sitemap demo label="Demo" {
+sitemap myHome label="My Home" {
 
   Frame label="Temperature/Humidity Data" {
     Text item=livingTemp01
@@ -11,7 +11,7 @@ sitemap demo label="Demo" {
     Switch     item=ac_mode   mappings=[1='COOL', 2='HEAT']
     Setpoint   item=ac_temp   minValue=16 maxValue=30 step=1 label="Temp [%3d °C]"
     Switch     item=ac_fan    mappings=[0='@', 1='@@', 2='@@@', 3='AUTO']
-  } 
+  }
 
   Frame label="Power Off" {
     Switch     item=leavingHome      mappings=[1="ALL OFF"]
@@ -26,6 +26,6 @@ sitemap demo label="Demo" {
     Setpoint   item=boiler_h  minValue=0  maxValue=23  step=1    visibility=[boiler_p==2]
     Setpoint   item=boiler_m  minValue=0  maxValue=45  step=15   visibility=[boiler_p==2]
     Setpoint   item=boiler_d  minValue=30 maxValue=240 step=15   visibility=[boiler_p==2]
-  } 
+  }
 }
 
