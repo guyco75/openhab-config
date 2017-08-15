@@ -1,0 +1,8 @@
+# udevadm info -a -p  $(udevadm info -q path -n /dev/ttyUSB0)
+# udevadm info --name=/dev/ttyUSB0 --attribute-walk
+udevadm info --name=/dev/ttyUSB0 --attribute-walk | grep idVendor
+udevadm info --name=/dev/ttyUSB0 --attribute-walk | grep idProduct
+sudo vim /etc/udev/rules.d/99-usb-serial.rules
+# SUBSYSTEM=="tty", ATTRS{idVendor}=="0403", ATTRS{idProduct}=="0000", SYMLINK+="ttyArduino1"
+sudo udevadm trigger
+
