@@ -1,11 +1,23 @@
 sitemap myHome label="My Home" {
 
-  Frame label="Temperature/Humidity Data" {
+  Text label="שליטה מתקדמת" {
+    Switch item=rollershutter_livingroom mappings=[100="▼", STOP="X", 0="▲", 40="½"]
+    Slider item=rollershutter_livingroom label="" icon=""
+    Switch item=leavingHome      mappings=[1="כיבוי כללי"]
+    Switch item=turnOffTv        mappings=[1="כיבוי טלויזיה"]
+    Switch item=turnOffReceiver  mappings=[1="כיבוי רסיבר"]
+    Switch item=livingroom_nuc_wol mappings=[ON="הדלקת המחשב בסלון"]
+    Switch item=homeserver_wol mappings=[ON="הדלקת שרת"]
+  }
+  Switch item=media_center label=""  mappings=[ON="מדיה סנטר - מחשב"]
+  Switch item=idan_plus label="" mappings=[ON="טלויזיה עידן+"]
+
+  Frame label="" {
     Text item=livingTemp01
     Text item=livingHum01
   }
 
-  Frame label="Air Conditioner" {
+  Frame label="מיזוג" {
     Switch     item=ac_power  mappings=[ON="Power"]
     Switch     item=ac_i_feel
     Switch     item=ac_mode   mappings=[1='COOL', 2='HEAT']
@@ -13,13 +25,7 @@ sitemap myHome label="My Home" {
     Switch     item=ac_fan    mappings=[0='@', 1='@@', 2='@@@', 3='AUTO']
   }
 
-  Frame label="Power Off" {
-    Switch     item=leavingHome      mappings=[1="ALL OFF"]
-    Switch     item=turnOffTv        mappings=[1="TV OFF"]
-    Switch     item=turnOffReceiver  mappings=[1="Receiver OFF"]
-  }
-
-  Frame label="Boiler" {
+  Frame label="בוילר" {
     //Switch     item=boiler_sw
     Switch     item=boiler_p                mappings=[0='OFF', 1='ON', 2='TIMER'] visibility=[boiler_sw==OFF]
     Switch     item=boiler_p  icon="switch" mappings=[0='OFF', 1='ON', 2='TIMER'] visibility=[boiler_sw==ON]
