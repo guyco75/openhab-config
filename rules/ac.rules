@@ -10,8 +10,7 @@ end
 
 rule "AC Poll Temp Humid"
   when
-    Time cron "0 * * ? * *" or
-    System started
+    Time cron "0 * * ? * *"
   then
     //logInfo("Air Conditioner", "send temp/humid query");
     sendCommand(Arduino, "$1,#");
