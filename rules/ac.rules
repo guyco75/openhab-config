@@ -4,7 +4,7 @@ rule "AC System Start"
     System started
   then
     postUpdate(ac_mode, 1);
-    postUpdate(ac_temp, 21);
+    postUpdate(ac_temp, 25);
     postUpdate(ac_fan, 3);
 end
 
