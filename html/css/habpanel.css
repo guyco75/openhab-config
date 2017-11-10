@@ -25,7 +25,7 @@ h3 {
 	color: orange;
 }
 
-.btn {
+.btn, .btn-group.dropdown .btn {
 	font-size: 1.9vw;
 	margin: 0.6vw 0.2vw;
 	padding: 0.5vw 0.8vw;
