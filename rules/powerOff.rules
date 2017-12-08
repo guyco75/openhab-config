@@ -5,70 +5,7 @@ rule "Power Off All"
   then
     logInfo("Power Off", receivedCommand.toString);
 
-    sendCommand(Arduino, "$4,2,#");
-    sendCommand(Arduino, "$5,2,2,2,#");
-    sendCommand(Arduino, "$4,2,#");
-    sendCommand(Arduino, "$5,2,2,2,#");
+    sendCommand(livingroom_mediacenter, "off");
     sendCommand(rollershutter_livingroom, 100);
-end
-
-rule "Power Off TV"
-  when
-    Item turnOffTv received command
-  then
-    logInfo("Power Off", receivedCommand.toString);
-
-    sendCommand(Arduino, "$4,2,#");
-end
-
-rule "Power Off Reveiver"
-  when
-    Item turnOffReceiver received command
-  then
-    logInfo("Power Off", receivedCommand.toString);
-
-    sendCommand(Arduino, "$5,2,2,2,#");
-end
-
-rule "Media Center"
-  when
-    Item media_center received command
-  then
-    logInfo("Media Center", receivedCommand.toString);
-
-    sendCommand(livingroom_nuc_wol, ON);
-
-    sendCommand(Arduino, "$5,2," + 0xA55A3AC5 + "," + 0xA55A03FC + ",#"); // Receiver Input BD (PC/NUC)
-    sendCommand(Arduino, "$4," + 0xE0E0D12E + ",#"); // TV input HDMU
-
-    sendCommand(Arduino, "$4,1,#");
-    sendCommand(Arduino, "$5,3,1,1,1,#");
-    sendCommand(Arduino, "$4,1,#");
-    sendCommand(Arduino, "$5,3,1,1,1,#");
-
-    Thread::sleep(2500);
-    sendCommand(Arduino, "$5,2," + 0xA55A3AC5 + "," + 0xA55A03FC + ",#"); // Receiver Input BD (PC/NUC)
-    Thread::sleep(6000);
-    sendCommand(Arduino, "$4," + 0xE0E0D12E + ",#"); // TV input HDMU
-end
-
-rule "Idan Plus"
-  when
-    Item idan_plus received command
-  then
-    logInfo("Idan Plus", receivedCommand.toString);
-
-    sendCommand(Arduino, "$5,3," + 0xA55A08F7 + "," + 0xA55A08F7 + "," + 0xA55A08F7 + ",#"); // Receiver Input CableTV/SAT
-    sendCommand(Arduino, "$4," + 0xE0E0D12E + ",#"); // TV input HDMU
-
-    //sendCommand(Arduino, "$5,1," + 0xFD9A65 + ",#");
-    sendCommand(Arduino, "$4,1,#");
-    sendCommand(Arduino, "$5,3,1,1,1,#");
-    sendCommand(Arduino, "$4,1,#");
-    sendCommand(Arduino, "$5,3,1,1,1,#");
-
-    Thread::sleep(2500);
-    Thread::sleep(6000);
-    sendCommand(Arduino, "$4," + 0xE0E0D12E + ",#"); // TV input HDMU
 end
 

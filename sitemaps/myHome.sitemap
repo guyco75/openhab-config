@@ -4,15 +4,9 @@ sitemap myHome label="My Home" {
     Switch item=rollershutter_livingroom mappings=[100="▼", STOP="X", 0="▲", 40="½"]
     Slider item=rollershutter_livingroom label="" icon=""
     Switch item=leavingHome      mappings=[ON="כיבוי כללי"]
-    Switch item=turnOffTv        mappings=[ON="כיבוי טלויזיה"]
-    Switch item=turnOffReceiver  mappings=[ON="כיבוי רסיבר"]
     Switch item=livingroom_nuc_wol mappings=[ON="הדלקת המחשב בסלון"]
     Switch item=homeserver_wol mappings=[ON="הדלקת שרת"]
   }
-  Switch item=media_center label=""  mappings=[ON="מדיה סנטר - מחשב"]
-  Switch item=idan_plus label="" mappings=[ON="טלויזיה עידן+"]
-
-  Setpoint   item=night_light   minValue=0 maxValue=255 step=1 label="תאורת לילה[%d]"
 
   Frame label="" {
     Text item=livingTemp01
@@ -34,6 +28,14 @@ sitemap myHome label="My Home" {
     Setpoint   item=boiler_h  minValue=0  maxValue=23  step=1    visibility=[boiler_p==2]
     Setpoint   item=boiler_m  minValue=0  maxValue=45  step=15   visibility=[boiler_p==2]
     Setpoint   item=boiler_d  minValue=30 maxValue=240 step=15   visibility=[boiler_p==2]
+  }
+
+  Frame label="מדיה סנטר" {
+    Switch item=livingroom_nuc_wol     mappings=[ON="x"]
+    Switch item=livingroom_nuc_suspend mappings=[ON="x"]
+    Switch item=livingroom_tv          mappings=["on"="on", "off"="off"]
+    Switch item=livingroom_receiver    mappings=["on"="on", "off"="off"]
+    Switch item=livingroom_mediacenter mappings=["idan_plus"="idan_plus", "pc"="pc", "off"="off"]
   }
 }
 

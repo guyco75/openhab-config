@@ -1,0 +1,11 @@
+
+Switch   livingroom_nuc_wol      "livingroom nuc"               (Network)  { wol="192.168.1.255#EC:A8:6B:FF:D6:09", autoupdate="false" }
+Switch   livingroom_nuc_suspend  "livingroom nuc suspend"                  { mqtt=">[mosquitto:winthing/system/commands/suspend:command:*:default]", autoupdate="false"}
+Switch   livingroom_nuc_state    "livingroom nuc state"                    { mqtt="<[mosquitto:winthing/system/system/online:state:MAP(mapping.map)]" }
+
+String   livingroom_tv           "livingroom tv"                           { autoupdate="false" }
+String   livingroom_receiver     "livingroom receiver"                     { autoupdate="false" }
+String   livingroom_mediacenter  "Livingroom mediacenter"                  { autoupdate="false" }
+
+Switch   homeserver_wol          "Home Server"                  (Network)  { wol="192.168.1.255#00:24:1D:8A:34:B2", autoupdate="false" }
+

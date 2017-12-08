@@ -1,0 +1,68 @@
+rule "Living Room Receiver"
+  when
+    Item livingroom_receiver received command
+  then
+    logInfo("mediacenter", "livingroom_receiver: "+receivedCommand.toString);
+    switch (receivedCommand) {
+      case "on":
+        sendCommand(Arduino, "$5,3,1,1,1,#")
+      case "off":
+        sendCommand(Arduino, "$5,2,2,2,#")
+      case "bd": //(PC/NUC)
+        sendCommand(Arduino, "$5,2," + 0xA55A3AC5 + "," + 0xA55A03FC + ",#")
+      case "cable_sat":
+        sendCommand(Arduino, "$5,3," + 0xA55A08F7 + "," + 0xA55A08F7 + "," + 0xA55A08F7 + ",#")
+    }
+end
+
+rule "Living Room TV"
+  when
+    Item livingroom_tv received command
+  then
+    logInfo("mediacenter", "livingroom_tv: "+receivedCommand.toString);
+    switch (receivedCommand) {
+      case "on":
+        sendCommand(Arduino, "$4,1,#")
+      case "off":
+        sendCommand(Arduino, "$4,2,#")
+      case "hdmi":
+        sendCommand(Arduino, "$4," + 0xE0E0D12E + ",#")
+    }
+end
+
+rule "Media Center Control"
+  when
+    Item livingroom_mediacenter received command
+  then
+    logInfo("mediacenter", "livingroom_mediacenter: "+receivedCommand.toString);
+    switch (receivedCommand) {
+      case "idan_plus": {
+        sendCommand(livingroom_nuc_suspend, ON);
+        sendCommand(livingroom_receiver, "cable_sat");
+        sendCommand(livingroom_tv, "hdmi");
+        sendCommand(livingroom_receiver, "on");
+        sendCommand(livingroom_tv, "on");
+        Thread::sleep(2500);
+        sendCommand(livingroom_receiver, "cable_sat");
+        Thread::sleep(6000);
+        sendCommand(livingroom_tv, "hdmi");
+      }
+      case "pc": {
+        sendCommand(livingroom_nuc_wol, ON);
+        sendCommand(livingroom_receiver, "bd");
+        sendCommand(livingroom_tv, "hdmi");
+        sendCommand(livingroom_receiver, "on");
+        sendCommand(livingroom_tv, "on");
+        Thread::sleep(2500);
+        sendCommand(livingroom_receiver, "bd");
+        Thread::sleep(6000);
+        sendCommand(livingroom_tv, "hdmi");
+      }
+      case "off": {
+        sendCommand(livingroom_nuc_suspend, ON);
+        sendCommand(livingroom_receiver, "off");
+        Thread::sleep(500);
+        sendCommand(livingroom_tv, "off");
+     }
+   }
+end

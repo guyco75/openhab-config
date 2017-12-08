@@ -22,11 +22,4 @@ Number   boiler_d         "Duration[%d]"           <clock>           (Boiler)
 
 
 Switch   leavingHome      "כיבוי כללי"             <switch>          (powerOff) { autoupdate="false" }
-Switch   turnOffTv        "כיבוי טלויזיה"          <switch>          (powerOff) { autoupdate="false" }
-Switch   turnOffReceiver  "כיבוי רסיבר"            <switch>          (powerOff) { autoupdate="false" }
-Switch   media_center                              <switch>          (powerOff) { autoupdate="false" }
-Switch   idan_plus                                 <switch>          (powerOff) { autoupdate="false" }
-
-Switch   livingroom_nuc_wol "livingroom nuc"                         (Network)  { wol="192.168.1.255#EC:A8:6B:FF:D6:09", autoupdate="false" }
-Switch   homeserver_wol "Home Server"                                (Network)  {wol="192.168.1.115#00:24:1D:8A:34:B2", autoupdate="false" }
 
