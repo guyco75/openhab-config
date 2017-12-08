@@ -12,6 +12,8 @@ sitemap myHome label="My Home" {
   Switch item=media_center label=""  mappings=[ON="מדיה סנטר - מחשב"]
   Switch item=idan_plus label="" mappings=[ON="טלויזיה עידן+"]
 
+  Setpoint   item=night_light   minValue=0 maxValue=255 step=1 label="תאורת לילה[%d]"
+
   Frame label="" {
     Text item=livingTemp01
     Text item=livingHum01
