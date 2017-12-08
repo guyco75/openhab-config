@@ -3,7 +3,7 @@ rule "AC System Start"
   when
     System started
   then
-    postUpdate(ac_mode, 1);
+    postUpdate(ac_mode, 2);
     postUpdate(ac_temp, 25);
     postUpdate(ac_fan, 3);
 end
