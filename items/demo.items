@@ -4,6 +4,7 @@ String   Arduino          "Arduino"                                { serial="/de
 Number   livingTemp01     "טמפרטורה [%.1f °C]"  <temperature> 
 Number   livingHum01      "לחות: [%.1f %%]"     <humidity>
 Switch   Arduino_toggle   "Arduino Toggle"
+Number   ac_state
 
 
 Switch   ac_power         "Power"                  <switch>          (Appliance) { autoupdate="false" }

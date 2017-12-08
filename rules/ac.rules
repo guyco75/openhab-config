@@ -28,8 +28,8 @@ rule "AC Arduino message"
     while (json != null) {
       //logInfo("Air Conditioner", msg + " ---- " + json);
       var temp = transform("JSONPATH", "$.temperature", json);
-      if (temp != null) {
-        var humid = transform("JSONPATH", "$.humidity", json);
+      var humid = transform("JSONPATH", "$.humidity", json);
+      if (temp != null && humid != null) {
         postUpdate(livingTemp01, temp);
         postUpdate(livingHum01, humid);
         if (ac_i_feel.state == ON) {
@@ -39,6 +39,10 @@ rule "AC Arduino message"
           logInfo("Air Conditioner", "AC action: " + arduino_cmd)
           sendCommand(Arduino, arduino_cmd);
         }
+      }
+      var st = transform("JSONPATH", "$.ac_state", json);
+      if (st != null) {
+        postUpdate(ac_state, st);
       }
       msg = transform("REGEX", "^[\\$]*\\$[^\\$#]*#(.*)", msg);
       json = transform("REGEX", "^[\\$]*\\$([^\\$#]*)#.*", msg); 
