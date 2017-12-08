@@ -1,0 +1,20 @@
+rule "Night Light"
+  when
+    Item night_light received command
+  then
+    sendCommand(Arduino, "$7,"+night_light.state+",#");
+end
+
+rule "Night Light Hourly"
+  when
+    Time cron "0 0 * ? * *"
+  then
+    var h = now.getHourOfDay;
+    if (h <= 5 || h >= 22) {
+      sendCommand(night_light, 5);
+    } else {
+      sendCommand(night_light, 0);
+    }
+    //sendCommand(Arduino, "$1,#");
+end
+
