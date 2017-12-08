@@ -37,5 +37,10 @@ sitemap myHome label="My Home" {
     Switch item=livingroom_receiver    mappings=["on"="on", "off"="off"]
     Switch item=livingroom_mediacenter mappings=["idan_plus"="idan_plus", "pc"="pc", "off"="off"]
   }
+
+  Frame label="test" {
+    Setpoint   item=night_light   minValue=0 maxValue=255 step=1 label="תאורת לילה[%d]"
+  }
+
 }
 
