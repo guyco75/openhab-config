@@ -34,8 +34,12 @@ rule "AC Arduino message"
         postUpdate(livingHum01, humid);
         if (ac_i_feel.state == ON) {
           // +0.5 for rounding
-          // +0.4 faster response (might need -0.4 for heating?)
-          var String arduino_cmd = "$2,0," + ac_mode.state + "," + ac_fan.state + ",1,1," + (Float::parseFloat(temp) + 0.5 + 0.4).intValue + ",#";
+          // +0.4 faster response (-0.4 for heating)
+          var i_feel_offset = 0.4;
+          if (ac_mode.state == 2) {
+            i_feel_offset = -0.4;
+          }
+          var String arduino_cmd = "$2,0," + ac_mode.state + "," + ac_fan.state + ",1,1," + (Float::parseFloat(temp) + 0.5 + i_feel_offset).intValue + ",#";
           logInfo("Air Conditioner", "AC action: " + arduino_cmd)
           sendCommand(Arduino, arduino_cmd);
         }
