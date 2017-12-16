@@ -1,0 +1,49 @@
+<div dir="rtl" class="box-content ng-scope"
+     style="border-color: {{itemValue('ac_state') == 1 ? 'red' : 'transparent'}}">
+  <p>
+    מיזוג אויר
+  </p>
+  <p>{{itemValue('livingTemp01')}}°C&nbsp;&nbsp;&nbsp;{{itemValue('livingHum01')}}%</p>
+  <div>
+    <span>
+      <button class="btn btn-primary" 
+              ng-click="sendCmd('ac_power', 'ON')">
+        הפעלה/כיבוי
+      </button>
+
+      <button class="btn btn-primary" style="{{itemValue('ac_i_feel')=='ON'?'background:#008080':''}}"
+              ng-click="sendCmd('ac_i_feel', itemValue('ac_i_feel')=='ON'?'OFF':'ON')">
+        I-Feel
+      </button>
+    </span>
+  </div>
+
+  <div>
+    <button type="button" class="btn btn-primary"
+            ng-click="sendCmd('ac_temp', itemValue('ac_temp') - 1)">
+      <span>-</span>
+    </button>
+
+    <div class="btn-group" dropdown-append-to-body="true" uib-dropdown>
+      <button id="btn-temp" type="button" class="btn btn-primary" uib-dropdown-toggle>
+        {{'%d' | sprintf:itemValue('ac_temp')}}
+      </button>
+      <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="btn-temp">
+        <li ng-repeat="t in [16,17,18,19,20,21,22,23,24,25,26,27,28,29,30]" role="menuitem">
+          <a ng-click="sendCmd('ac_temp', t)">{{'%d' | sprintf:t}}</a>
+        </li>
+      </ul>
+    </div>
+
+    <button type="button" class="btn btn-primary"
+            ng-click="sendCmd('ac_temp', itemValue('ac_temp')*1 + 1)">
+      <span>+</span>
+    </button>
+
+    <button class="btn btn-primary"
+            ng-click="sendCmd('ac_mode', itemValue('ac_mode')==1?2:1)">
+      {{ itemValue('ac_mode')==1?"קירור":"חימום" }}
+    </button>
+
+  </div>
+</div>

@@ -19,8 +19,8 @@ div.switch-content span {
 	color: orange;
 }
 
-h3 {
-	margin: 1.3vw 0.2vw;
+p, h3 {
+	margin: auto 0.2vw;
 	font-size: 1em;
 	color: orange;
 }

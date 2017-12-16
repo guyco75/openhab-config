@@ -1,0 +1,66 @@
+<div dir="rtl" class="box-content ng-scope" style="border-color: {{itemValue('boiler_sw') == 'ON' ? 'red' : 'transparent'}}">
+  <p>
+    בוילר
+  </p>
+
+  <div>
+    <span>
+      <button class="btn btn-primary" style="{{itemValue('boiler_p')=='0'?'background:#008080':''}}"
+              ng-click="sendCmd('boiler_p', '0')">
+        כיבוי
+      </button>
+      <button class="btn btn-primary" style="{{itemValue('boiler_p')=='1'?'background:#008080':''}}"
+              ng-click="sendCmd('boiler_p', '1')">
+        הדלקה
+      </button>
+      <button class="btn btn-primary" style="{{itemValue('boiler_p')=='2'?'background:#008080':''}}"
+              ng-click="sendCmd('boiler_p', '2')">
+        טיימר
+      </button>
+    </span>
+  </div>
+
+  <div ng-if="itemValue('boiler_p') == '2'">
+    <div>
+      התחלה
+      <div class="btn-group" dropdown-append-to-body="true" uib-dropdown>
+        <button id="btn-m" type="button" class="btn btn-primary"
+                style="background:transparent; padding:1px; border:none" uib-dropdown-toggle>
+          {{itemValue('boiler_m')=='0' ? '00' : itemValue('boiler_m')}}
+        </button>
+        <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="btn-m">
+          <li ng-repeat="m in ['00','15','30','45']" role="menuitem">
+            <a ng-click="sendCmd('boiler_m', m)">{{m}}</a>
+          </li>
+        </ul>
+      </div>
+      <span style="padding:1px">:</sp>
+      <div class="btn-group" dropdown-append-to-body="true" uib-dropdown>
+        <button id="btn-h" type="button" class="btn btn-primary"
+                style="background:transparent; padding:1px; border:none" uib-dropdown-toggle>
+          {{itemValue('boiler_h')}}
+        </button>
+        <ul id="drop-h" class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="btn-h">
+          <li ng-repeat="h in [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23]" role="menuitem">
+            <a ng-click="sendCmd('boiler_h', h)">{{h}}</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div>
+      משך
+      <div class="btn-group" dropdown-append-to-body="true" uib-dropdown>
+        <button id="btn-d" type="button" class="btn btn-primary"
+                style="background:transparent; padding:1px; border:none" uib-dropdown-toggle>
+          {{'%d' | sprintf:itemValue('boiler_d')/60}}:{{'%02d' | sprintf:itemValue('boiler_d')%60}}
+        </button>
+        <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="btn-d">
+          <li ng-repeat="d in [15,30,45,60,75,90,105,120]" role="menuitem">
+            <a ng-click="sendCmd('boiler_d', d)">{{'%d' | sprintf:d/60}}:{{'%02d' | sprintf:d%60}}</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
