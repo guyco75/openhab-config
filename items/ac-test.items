@@ -1,0 +1,9 @@
+
+Switch   ac_auto_sw              "הדלקת מזגן אוטומטית"    <switch>
+Number   ac_auto_start_h         "Start (Hours)[%d]"      <clock>
+Number   ac_auto_start_m         "Start (Minutes)[%02d]"  <clock>
+Number   ac_auto_stop_h          "Stop (Hours)[%d]"       <clock>
+Number   ac_auto_stop_m          "Stop (Minutes)[%02d]"   <clock>
+String   ac_auto_mode            "חימום/קירור"            <settings>
+String   ac_auto_threshold       "טמפרטורת הפעלה"         <temperature>
+

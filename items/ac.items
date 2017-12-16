@@ -1,0 +1,11 @@
+
+Switch   ac_power         "Power"                  <switch>           { autoupdate="false" }
+Switch   ac_i_feel        "I Feel"                 <smoke>            [ "Switchable" ]
+Number   ac_mode          "Mode"                   <settings>        
+Number   ac_temp          "Temperature [%d °C]"    <temperature>     
+Number   ac_fan           "Fan Speed"              <fan>             
+
+Number   livingTemp01     "טמפרטורה [%.1f °C]"     <temperature> 
+Number   livingHum01      "לחות: [%.1f %%]"        <humidity>
+Number   ac_state
+
