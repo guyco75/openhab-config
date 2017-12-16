@@ -15,6 +15,5 @@ rule "Night Light Hourly"
     } else {
       sendCommand(night_light, 0);
     }
-    //sendCommand(Arduino, "$1,#");
 end
 
