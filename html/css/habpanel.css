@@ -8,7 +8,11 @@ body .container .gridster {
 
 .box-content {
 	padding: 0.3vw;
-	border: 0.5vw solid transparent;
+	border: 0.2vw solid transparent;
+	border-radius: 2vw;
+}
+.box-content.activated {
+	border-color: orange;
 }
 
 .gridster-item .box {

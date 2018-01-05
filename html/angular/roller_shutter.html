@@ -1,0 +1,31 @@
+<div dir="rtl" class="box-content ng-scope {{itemValue('rollershutter_livingroom') != 100 ? 'activated' : ''}}">
+  <p>
+    תריס חשמלי סלון
+  </p>
+
+  <div>
+    <button class="btn btn-primary"
+            style="{{itemValue('rollershutter_livingroom')=='0'?'background:#008080':''}}"
+            ng-click="sendCmd('rollershutter_livingroom', '0')">
+      פתוח
+    </button>
+    <button class="btn btn-primary"
+            style="{{itemValue('rollershutter_livingroom')=='40'?'background:#008080':''}}"
+            ng-click="sendCmd('rollershutter_livingroom', '40')">
+      חריצים
+    </button>
+    <button class="btn btn-primary"
+            style="{{itemValue('rollershutter_livingroom')=='100'?'background:#008080':''}}"
+            ng-click="sendCmd('rollershutter_livingroom', '100')">
+      סגור
+    </button>
+  </div>
+
+  <div>
+    <button class="btn btn-primary"
+            style="width: 12vw; height: 6vw; margin: 3vw 0"
+            ng-click="sendCmd('rollershutter_livingroom', 'STOP')">
+      עצור
+    </button>
+  </div>
+</div>

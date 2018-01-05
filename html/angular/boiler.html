@@ -1,8 +1,5 @@
-<div dir="rtl" class="box-content ng-scope" style="border-color: {{itemValue('boiler_sw') == 'ON' ? 'red' : 'transparent'}}">
-  <p>
-    בוילר
-  </p>
-
+<div dir="rtl" class="box-content ng-scope {{itemValue('boiler_sw') == 'ON' ? 'activated' : ''}}">
+  <p>בוילר</p>
   <div>
     <span>
       <button class="btn btn-primary" style="{{itemValue('boiler_p')=='0'?'background:#008080':''}}"

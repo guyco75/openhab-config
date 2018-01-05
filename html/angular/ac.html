@@ -1,15 +1,9 @@
-<div dir="rtl" class="box-content ng-scope"
-     style="border-color: {{itemValue('ac_state') == 1 ? 'red' : 'transparent'}}">
-  <p>
-    מיזוג אויר
-  </p>
+<div dir="rtl" class="box-content ng-scope {{itemValue('ac_state') == 1 ? 'activated' : ''}}">
+  <p>מיזוג אויר</p>
   <p>{{itemValue('livingTemp01')}}°C&nbsp;&nbsp;&nbsp;{{itemValue('livingHum01')}}%</p>
   <div>
     <span>
-      <button class="btn btn-primary" 
-              ng-click="sendCmd('ac_power', 'ON')">
-        הפעלה/כיבוי
-      </button>
+      <button class="btn btn-primary" ng-click="sendCmd('ac_power', 'ON')">הפעלה/כיבוי</button>
 
       <button class="btn btn-primary" style="{{itemValue('ac_i_feel')=='ON'?'background:#008080':''}}"
               ng-click="sendCmd('ac_i_feel', itemValue('ac_i_feel')=='ON'?'OFF':'ON')">
