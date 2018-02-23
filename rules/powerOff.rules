@@ -5,7 +5,8 @@ rule "Power Off All"
   then
     logInfo("Power Off", receivedCommand.toString);
 
-    sendCommand(livingroom_mediacenter, "off");
-    sendCommand(rollershutter_livingroom, 100);
+    livingroom_mediacenter.sendCommand("off");
+    rollershutter_livingroom.sendCommand(100);
+    kitchen_light.sendCommand(0);
 end
 

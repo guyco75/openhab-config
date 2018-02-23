@@ -3,16 +3,16 @@ rule "AC System Start"
   when
     System started
   then
-    postUpdate(ac_mode, 2)
-    postUpdate(ac_temp, 25)
-    postUpdate(ac_fan, 3)
+    ac_mode.postUpdate(2)
+    ac_temp.postUpdate(25)
+    ac_fan.postUpdate(3)
 end
 
 rule "AC Poll Temp Humid"
   when
     Time cron "0 * * ? * *"
   then
-    sendCommand(Arduino, "$1,#")
+    Arduino.sendCommand("$1,#")
 end
 
 rule "AC Arduino message"
@@ -27,8 +27,8 @@ rule "AC Arduino message"
       var temp = transform("JSONPATH", "$.temperature", json)
       var humid = transform("JSONPATH", "$.humidity", json)
       if (temp != null && humid != null) {
-        postUpdate(livingTemp01, temp)
-        postUpdate(livingHum01, humid)
+        livingTemp01.postUpdate(temp)
+        livingHum01.postUpdate(humid)
         if (ac_i_feel.state == ON) {
           // +0.5 for rounding
           // +0.4 faster response (-0.4 for heating)
@@ -37,12 +37,12 @@ rule "AC Arduino message"
             i_feel_offset = -0.4
           }
           var String arduino_cmd = "$2,0," + ac_mode.state + "," + ac_fan.state + ",1,1," + (Float::parseFloat(temp) + 0.5 + i_feel_offset).intValue + ",#"
-          sendCommand(Arduino, arduino_cmd)
+          Arduino.sendCommand(arduino_cmd)
         }
       }
       var st = transform("JSONPATH", "$.ac_state", json)
       if (st != null) {
-        postUpdate(ac_state, st)
+        ac_state.postUpdate(st)
       }
       msg = transform("REGEX", "^[\\$]*\\$[^\\$#]*#(.*)", msg)
       json = transform("REGEX", "^[\\$]*\\$([^\\$#]*)#.*", msg) 
@@ -73,5 +73,5 @@ rule "AC Air Conditioner update"
     }
     arduino_cmd += ac_temp.state + ",#"
 
-    sendCommand(Arduino, arduino_cmd)
+    Arduino.sendCommand(arduino_cmd)
 end

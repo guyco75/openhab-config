@@ -5,13 +5,13 @@ rule "Living Room Receiver"
     logInfo("mediacenter", "livingroom_receiver: "+receivedCommand.toString);
     switch (receivedCommand) {
       case "on":
-        sendCommand(Arduino, "$5,3,1,1,1,#")
+        Arduino.sendCommand("$5,3,1,1,1,#")
       case "off":
-        sendCommand(Arduino, "$5,2,2,2,#")
+        Arduino.sendCommand("$5,2,2,2,#")
       case "bd": //(PC/NUC)
-        sendCommand(Arduino, "$5,1,4,#")
+        Arduino.sendCommand("$5,1,4,#")
       case "cable_sat":
-        sendCommand(Arduino, "$5,3,5,5,5,#")
+        Arduino.sendCommand("$5,3,5,5,5,#")
     }
 end
 
@@ -22,11 +22,11 @@ rule "Living Room TV"
     logInfo("mediacenter", "livingroom_tv: "+receivedCommand.toString);
     switch (receivedCommand) {
       case "on":
-        sendCommand(Arduino, "$4,1,#")
+        Arduino.sendCommand("$4,1,#")
       case "off":
-        sendCommand(Arduino, "$4,2,#")
+        Arduino.sendCommand("$4,2,#")
       case "hdmi":
-        sendCommand(Arduino, "$4,4,#")
+        Arduino.sendCommand("$4,4,#")
     }
 end
 
@@ -37,32 +37,32 @@ rule "Media Center Control"
     logInfo("mediacenter", "livingroom_mediacenter: "+receivedCommand.toString);
     switch (receivedCommand) {
       case "idan_plus": {
-        sendCommand(livingroom_nuc_suspend, ON);
-        sendCommand(livingroom_receiver, "cable_sat");
-        sendCommand(livingroom_tv, "hdmi");
-        sendCommand(livingroom_receiver, "on");
-        sendCommand(livingroom_tv, "on");
+        livingroom_nuc_suspend.sendCommand(ON);
+        livingroom_receiver.sendCommand("cable_sat");
+        livingroom_tv.sendCommand("hdmi");
+        livingroom_receiver.sendCommand("on");
+        livingroom_tv.sendCommand("on");
         Thread::sleep(2500);
-        sendCommand(livingroom_receiver, "cable_sat");
+        livingroom_receiver.sendCommand("cable_sat");
         Thread::sleep(6000);
-        sendCommand(livingroom_tv, "hdmi");
+        livingroom_tv.sendCommand("hdmi");
       }
       case "pc": {
-        sendCommand(livingroom_nuc_wol, ON);
-        sendCommand(livingroom_receiver, "bd");
-        sendCommand(livingroom_tv, "hdmi");
-        sendCommand(livingroom_receiver, "on");
-        sendCommand(livingroom_tv, "on");
+        livingroom_nuc_wol.sendCommand(ON);
+        livingroom_receiver.sendCommand("bd");
+        livingroom_tv.sendCommand("hdmi");
+        livingroom_receiver.sendCommand("on");
+        livingroom_tv.sendCommand("on");
         Thread::sleep(2500);
-        sendCommand(livingroom_receiver, "bd");
+        livingroom_receiver.sendCommand("bd");
         Thread::sleep(6000);
-        sendCommand(livingroom_tv, "hdmi");
+        livingroom_tv.sendCommand("hdmi");
       }
       case "off": {
-        sendCommand(livingroom_nuc_suspend, ON);
-        sendCommand(livingroom_receiver, "off");
+        livingroom_nuc_suspend.sendCommand(ON);
+        livingroom_receiver.sendCommand("off");
         Thread::sleep(500);
-        sendCommand(livingroom_tv, "off");
+        livingroom_tv.sendCommand("off");
      }
    }
 end

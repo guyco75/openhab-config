@@ -5,11 +5,11 @@ rule "Boiler System Start"
   when
     System started
   then
-    sendCommand(boiler_sw, OFF);
-    postUpdate(boiler_p, 0);
-    postUpdate(boiler_h, 17);
-    postUpdate(boiler_m, 0);
-    postUpdate(boiler_d, 120);
+    boiler_sw.sendCommand(OFF);
+    boiler_p.postUpdate(0);
+    boiler_h.postUpdate(17);
+    boiler_m.postUpdate(0);
+    boiler_d.postUpdate(120);
 end
 
 rule "Boiler settings update"
@@ -19,8 +19,6 @@ rule "Boiler settings update"
     Item boiler_m received update or
     Item boiler_d received update
   then
-    logInfo("Boiler", boiler_p.state.toString);
-
     if (boiler_timer != null) {
         logInfo("Boiler", "removing timer")
         boiler_timer.cancel
@@ -29,10 +27,10 @@ rule "Boiler settings update"
 
     switch (boiler_p.state) {
       case 0:
-	    sendCommand(boiler_sw, OFF)
+	    boiler_sw.sendCommand(OFF)
 
       case 1:
-	    sendCommand(boiler_sw, ON)
+	    boiler_sw.sendCommand(ON)
 
       case 2: {
         logInfo("Boiler", "Set Boiler Timer")
@@ -49,20 +47,20 @@ rule "Boiler settings update"
 
         if (start_time <= nowMin && nowMin < end_time) {
           logInfo("Boiler", "TIMER: ON  |  start_time="+start_time + "  end_time="+end_time + "  nowMin="+nowMin)
-          sendCommand(boiler_sw, ON)
+          boiler_sw.sendCommand(ON)
           var t=now.plusMinutes(end_time-nowMin).withSecondOfMinute(0).withMillisOfSecond(0)
           boiler_timer = createTimer(t) [|
-	        postUpdate(boiler_p, 0)
-	      ]
+            boiler_p.postUpdate(0)
+          ]
         } else {
-          sendCommand(boiler_sw, OFF)
-		  if (start_time < nowMin)
-			start_time += 24*60
+          boiler_sw.sendCommand(OFF)
+          if (start_time < nowMin)
+            start_time += 24*60
           logInfo("Boiler", "TIMER: WAIT  |  start_time="+start_time + "  end_time="+end_time + "  nowMin="+nowMin)
           var t=now.plusMinutes(start_time-nowMin).withSecondOfMinute(0).withMillisOfSecond(0)
           boiler_timer = createTimer(t) [|
-	        postUpdate(boiler_p, 2) /// JUST TRIGGER WITHOUT 2!!
-	      ]
+            boiler_p.postUpdate(2) /// JUST TRIGGER WITHOUT 2!!
+          ]
         }
       }
     }
