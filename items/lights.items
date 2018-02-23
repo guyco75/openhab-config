@@ -1,1 +1,3 @@
 Number night_light   <light>
+
+Dimmer kitchen_light    "תאורת מטבח"          <switch>     (lights, kitchen)  {mqtt=">[mosquitto:home/f1/kitchen/light/0/set:command:*:default],<[mosquitto:home/f1/kitchen/light/0/update:state:default]"}

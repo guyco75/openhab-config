@@ -1,0 +1,23 @@
+<div dir="rtl" class="box-content ng-scope {{itemValue('kitchen_light') != 0 ? 'activated' : ''}}">
+  <div style="height:5vw">
+    <div style="position: absolute; right:0.6vw; top: 0.4vw">
+      <button class="btn btn-primary" ng-click="sendCmd('kitchen_light', 100)">הדלקה</button>
+    </div>
+    <div style="position: absolute; left:0.6vw; top: 0.4vw">
+      <button class="btn btn-primary" ng-click="sendCmd('kitchen_light', 0)">כיבוי</button>
+    </div>
+    <p>מטבח</p>
+  </div>
+
+  <div ng-init='lightPanleModel={
+      name: "volume",
+      item: "kitchen_light",
+      floor : 0,
+      ceil: 100,
+      step: 1,
+      hidelabel: true,
+      hidelimits: true,
+      showticks: false}'>
+    <widget-slider ng-model="lightPanleModel"/>
+  </div>
+</div>

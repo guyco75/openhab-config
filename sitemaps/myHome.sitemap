@@ -39,6 +39,8 @@ sitemap myHome label="My Home" {
   }
 
   Frame label="test" {
+    Switch     item=kitchen_light mappings=[0="OFF", 100="ON"]
+    Slider     item=kitchen_light
     Setpoint   item=night_light   minValue=0 maxValue=255 step=1 label="תאורת לילה[%d]"
   }
 
