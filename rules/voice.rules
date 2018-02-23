@@ -1,0 +1,75 @@
+rule "Voice control"
+when
+  Item VoiceCommand received command
+then
+  var String command = receivedCommand.toString.toLowerCase
+  var String cmd = null
+  var Integer set_val = 0
+
+  if (command.startsWith("turn")) {
+    if (command.contains(" on ") || command.endsWith(" on")) {
+      cmd = "ON"
+    } else if (command.contains(" off ") || command.endsWith(" off")) {
+      cmd = "OFF"
+    }
+  }
+
+  if (command.startsWith("open ")) {
+    cmd = "OPEN"
+  }
+
+  if (command.startsWith("close ")) {
+    cmd = "CLOSE"
+  }
+
+  if (command.startsWith("set ")) {
+    var String val_str = transform("REGEX", "^set .* to ([0-9]+)", command)
+    if (val_str != null) {
+      set_val = Integer::parseInt(val_str)
+      cmd = "SET"
+    }
+  }
+
+  logInfo("tttt", command + " | " + cmd + " | " + set_val);
+
+  if (command.contains("air condition")) {
+    switch (cmd) {
+      case "OFF": {
+        if (ac_state.state == 1) {
+          ac_power.sendCommand(ON) //used both for power on and power off
+        }
+      }
+      case "ON": {
+        if (ac_state.state == 0) {
+          ac_power.sendCommand(ON)
+          Thread::sleep(2000)
+          ac_i_feel.sendCommand(ON)
+        }
+      }
+      case "SET": ac_temp.sendCommand(num)
+    }
+  }
+
+  if (command.contains("kitchen light")) {
+    switch (cmd) {
+      case "OFF": kitchen_light.sendCommand(0)
+      case "ON" : kitchen_light.sendCommand(100)
+      case "SET": kitchen_light.sendCommand(set_val)
+    }
+  }
+
+  if (command.contains("boiler")) {
+    switch (cmd) {
+      case "OFF": boiler_p.postUpdate(0)
+      case "ON" : boiler_p.postUpdate(1)
+    }
+  }
+
+  if (command.contains("roller shutter")) {
+    switch (cmd) {
+      case "OPEN"  : rollershutter_livingroom.sendCommand(0)
+      case "CLOSE" : rollershutter_livingroom.sendCommand(100)
+      case "SET"   : rollershutter_livingroom.sendCommand(set_val)
+    }
+  }
+end
