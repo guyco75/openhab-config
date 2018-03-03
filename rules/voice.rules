@@ -4,7 +4,8 @@ when
 then
   var String command = receivedCommand.toString.toLowerCase
   var String cmd = null
-  var Integer set_val = 0
+  var String set_val_str = null
+  var Integer set_val_num = 0
 
   if (command.startsWith("turn")) {
     if (command.contains(" on ") || command.endsWith(" on")) {
@@ -22,15 +23,18 @@ then
     cmd = "CLOSE"
   }
 
-  if (command.startsWith("set ")) {
-    var String val_str = transform("REGEX", "^set .* to ([0-9]+)", command)
-    if (val_str != null) {
-      set_val = Integer::parseInt(val_str)
-      cmd = "SET"
+  set_val_str = transform("REGEX", "^set .+ to ([a-z0-9 ]+)", command)
+  if (set_val_str != null) {
+    var String s = transform("REGEX", "^([0-9]+)$", set_val_str)
+    if (s != null) {
+      set_val_num = Integer::parseInt(s)
+      cmd = "SET_NUM"
+    } else {
+      cmd = "SET_STR"
     }
   }
 
-  logInfo("tttt", command + " | " + cmd + " | " + set_val);
+  logInfo("voice", command + " | cmd=" + cmd + " | set_val_str=" + set_val_str);
 
   if (command.contains("air condition")) {
     switch (cmd) {
@@ -46,15 +50,15 @@ then
           ac_i_feel.sendCommand(ON)
         }
       }
-      case "SET": ac_temp.sendCommand(num)
+      case "SET_NUM": ac_temp.sendCommand(set_val_num)
     }
   }
 
   if (command.contains("kitchen light")) {
     switch (cmd) {
-      case "OFF": kitchen_light.sendCommand(0)
-      case "ON" : kitchen_light.sendCommand(100)
-      case "SET": kitchen_light.sendCommand(set_val)
+      case "OFF"    : kitchen_light.sendCommand(0)
+      case "ON"     : kitchen_light.sendCommand(100)
+      case "SET_NUM": kitchen_light.sendCommand(set_val_num)
     }
   }
 
@@ -65,11 +69,24 @@ then
     }
   }
 
+  if (command.contains("media center") || command.contains("mediacenter")) {
+    switch (cmd) {
+      case "OFF"    : livingroom_mediacenter.sendCommand("off")
+      case "SET_STR": {
+        if (set_val_str.contains("tv")) {
+          livingroom_mediacenter.sendCommand("idan_plus")
+        } else if (set_val_str.contains("pc") || set_val_str.contains("computer")) {
+          livingroom_mediacenter.sendCommand("pc")
+        }
+      }
+    }
+  }
+
   if (command.contains("roller shutter")) {
     switch (cmd) {
-      case "OPEN"  : rollershutter_livingroom.sendCommand(0)
-      case "CLOSE" : rollershutter_livingroom.sendCommand(100)
-      case "SET"   : rollershutter_livingroom.sendCommand(set_val)
+      case "OPEN"   : rollershutter_livingroom.sendCommand(0)
+      case "CLOSE"  : rollershutter_livingroom.sendCommand(100)
+      case "SET_NUM": rollershutter_livingroom.sendCommand(set_val_num)
     }
   }
 end
