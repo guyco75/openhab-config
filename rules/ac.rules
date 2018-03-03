@@ -12,7 +12,9 @@ rule "AC Poll Temp Humid"
   when
     Time cron "0 * * ? * *"
   then
-    Arduino.sendCommand("$1,#")
+    if (ac_i_feel.state == ON) {
+      Arduino.sendCommand("$1,#")
+    }
 end
 
 rule "AC Arduino message"
