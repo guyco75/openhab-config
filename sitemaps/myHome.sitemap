@@ -28,6 +28,7 @@ sitemap myHome label="My Home" {
     Setpoint   item=boiler_h  minValue=0  maxValue=23  step=1    visibility=[boiler_p==2]
     Setpoint   item=boiler_m  minValue=0  maxValue=45  step=15   visibility=[boiler_p==2]
     Setpoint   item=boiler_d  minValue=30 maxValue=240 step=15   visibility=[boiler_p==2]
+    Switch     item=bathroom_heater
   }
 
   Frame label="מדיה סנטר" {

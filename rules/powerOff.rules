@@ -8,5 +8,7 @@ rule "Power Off All"
     livingroom_mediacenter.sendCommand("off");
     rollershutter_livingroom.sendCommand(100);
     kitchen_light.sendCommand(0);
+
+    bathroom_heater.sendCommand(OFF)
 end
 

@@ -69,6 +69,13 @@ then
     }
   }
 
+  if (command.contains("bathroom heater")) {
+    switch (cmd) {
+      case "OFF": bathroom_heater.sendCommand(OFF)
+      case "ON" : bathroom_heater.sendCommand(ON)
+    }
+  }
+
   if (command.contains("media center") || command.contains("mediacenter")) {
     switch (cmd) {
       case "OFF"    : livingroom_mediacenter.sendCommand("off")

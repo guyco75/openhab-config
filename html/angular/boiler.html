@@ -60,4 +60,18 @@
       </div>
     </div>
   </div>
+
+  <div>
+    <span>
+      תנור
+      <button class="btn btn-primary" style="{{itemValue('bathroom_heater')=='OFF'?'background:#008080':''}}"
+              ng-click="sendCmd('bathroom_heater', 'OFF')">
+        כיבוי
+      </button>
+      <button class="btn btn-primary" style="{{itemValue('bathroom_heater')=='ON'?'background:#008080':''}}"
+              ng-click="sendCmd('bathroom_heater', 'ON')">
+        הדלקה
+      </button>
+    </span>
+  </div>
 </div>
