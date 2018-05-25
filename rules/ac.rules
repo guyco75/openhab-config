@@ -6,13 +6,15 @@ rule "AC System Start"
     ac_mode.postUpdate(1)
     ac_temp.postUpdate(25)
     ac_fan.postUpdate(3)
+    Arduino.sendCommand("$1,#")
 end
 
 rule "AC Poll Temp Humid"
   when
     Time cron "0 * * ? * *"
   then
-    if (ac_i_feel.state == ON) {
+    // ask for the temperatures if i-feel is turned on or every 20 minutes
+    if (ac_i_feel.state == ON || now.getMinuteOfHour % 20 == 0) {
       Arduino.sendCommand("$1,#")
     }
 end
