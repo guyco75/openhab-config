@@ -64,8 +64,8 @@ then
 
   if (command.contains("boiler")) {
     switch (cmd) {
-      case "OFF": boiler_p.postUpdate(0)
-      case "ON" : boiler_p.postUpdate(1)
+      case "OFF": boiler_p.sendCommand(0)
+      case "ON" : boiler_p.sendCommand(1)
     }
   }
 

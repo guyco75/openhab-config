@@ -12,6 +12,18 @@ rule "Boiler System Start"
     boiler_d.postUpdate(120);
 end
 
+rule "boiler_sw > boiler_p"
+  when
+    Item boiler_sw received update
+  then
+    if (boiler_sw.state == ON) {
+      boiler_p.postUpdate(1)
+    } else {
+      boiler_p.postUpdate(0)
+    }
+end
+
+//TODO: use "received command" and triggeringItem when moving to a newer OH version
 rule "Boiler settings update"
   when
     Item boiler_p received update or
