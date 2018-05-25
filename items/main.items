@@ -6,3 +6,4 @@ String   Arduino        "Arduino"                                         { seri
 
 Switch   leavingHome    "כיבוי כללי"          <switch>     (powerOff)     { autoupdate="false" }
 
+Rollershutter rollershutter_livingroom "תריס סלון [%d %%]" (livingroom) 
