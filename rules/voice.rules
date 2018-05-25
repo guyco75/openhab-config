@@ -7,7 +7,7 @@ then
   var String set_val_str = null
   var Integer set_val_num = 0
 
-  if (command.startsWith("turn")) {
+  if (command.startsWith("turn ")) {
     if (command.contains(" on ") || command.endsWith(" on")) {
       cmd = "ON"
     } else if (command.contains(" off ") || command.endsWith(" off")) {
@@ -34,7 +34,7 @@ then
     }
   }
 
-  logInfo("voice", command + " | cmd=" + cmd + " | set_val_str=" + set_val_str);
+  logInfo("voice", command + " | cmd=" + cmd + " | set_val_str=" + set_val_str)
 
   if (command.contains("air condition")) {
     switch (cmd) {
