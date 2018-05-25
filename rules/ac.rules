@@ -3,7 +3,7 @@ rule "AC System Start"
   when
     System started
   then
-    ac_mode.postUpdate(2)
+    ac_mode.postUpdate(1)
     ac_temp.postUpdate(25)
     ac_fan.postUpdate(3)
 end
