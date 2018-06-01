@@ -2,7 +2,7 @@ Group    home           "בית"
 Group    livingroom     "סלון"                             (home)
 Group    master_off     "כיבוי כללי"                       (home)
 
-String   Arduino        "Arduino"                                         { serial="/dev/ttyArduino1@57600", autoupdate="false" }
+String   Arduino        "Arduino"                                         {mqtt=">[mosquitto:home/f1/arduino1/set:command:*:default],<[mosquitto:home/f1/arduino1/response:state:default]", autoupdate="false"}
 
 Switch   leavingHome    "כיבוי כללי"          <switch>     (powerOff)     { autoupdate="false" }
 

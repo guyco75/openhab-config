@@ -23,33 +23,31 @@ rule "AC Arduino message"
   when
     Item Arduino received update
   then
-    // TODO: parse string and verify correct format...
+    var String json = Arduino.state.toString
 
-    var String msg = Arduino.state.toString
-    var String json = transform("REGEX", "^[\\$]*\\$([^\\$#]*)#.*", msg)
-    while (json != null) {
-      var temp = transform("JSONPATH", "$.temperature", json)
-      var humid = transform("JSONPATH", "$.humidity", json)
-      if (temp != null && humid != null) {
-        livingTemp01.postUpdate(temp)
-        livingHum01.postUpdate(humid)
-        if (ac_i_feel.state == ON) {
-          // +0.5 for rounding
-          // +0.4 faster response (-0.4 for heating)
-          var i_feel_offset = 0.4
-          if (ac_mode.state == 2) {
-            i_feel_offset = -0.4
-          }
-          var String arduino_cmd = "$2,0," + ac_mode.state + "," + ac_fan.state + ",1,1," + (Float::parseFloat(temp) + 0.5 + i_feel_offset).intValue + ",#"
-          Arduino.sendCommand(arduino_cmd)
+    var temp = transform("JSONPATH", "$.temperature", json)
+    if (temp != null) {
+      livingTemp01.postUpdate(temp)
+      if (ac_i_feel.state == ON) {
+        // +0.5 for rounding
+        // +0.4 faster response (-0.4 for heating)
+        var i_feel_offset = 0.4
+        if (ac_mode.state == 2) {
+          i_feel_offset = -0.4
         }
+        var String arduino_cmd = "$2,0," + ac_mode.state + "," + ac_fan.state + ",1,1," + (Float::parseFloat(temp) + 0.5 + i_feel_offset).intValue + ",#"
+        Arduino.sendCommand(arduino_cmd)
       }
-      var st = transform("JSONPATH", "$.ac_state", json)
-      if (st != null) {
-        ac_state.postUpdate(st)
-      }
-      msg = transform("REGEX", "^[\\$]*\\$[^\\$#]*#(.*)", msg)
-      json = transform("REGEX", "^[\\$]*\\$([^\\$#]*)#.*", msg) 
+    }
+
+    var humid = transform("JSONPATH", "$.humidity", json)
+    if (humid != null) {
+      livingHum01.postUpdate(humid)
+    }
+
+    var st = transform("JSONPATH", "$.ac_state", json)
+    if (st != null) {
+      ac_state.postUpdate(st)
     }
 end
 
