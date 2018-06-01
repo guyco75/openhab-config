@@ -10,5 +10,6 @@ rule "Power Off All"
     kitchen_light.sendCommand(0);
 
     bathroom_heater.sendCommand(OFF)
+    bathroom_light.sendCommand(OFF)
 end
 
