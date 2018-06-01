@@ -60,20 +60,25 @@ rule "AC Air Conditioner update"
     Item ac_temp   received update
   then
     var String arduino_cmd = "$2,"
-   
-    if (receivedCommand == ON) {
-      arduino_cmd += "1,"
-      ac_i_feel.state = OFF
-    } else {
-      arduino_cmd += "0,"
-    }
-    arduino_cmd += ac_mode.state + "," + ac_fan.state + "," + "0" + ","
-    if (ac_i_feel.state == ON) {
-        arduino_cmd += "1,"
-    } else {
-        arduino_cmd += "0,"
-    }
-    arduino_cmd += ac_temp.state + ",#"
 
-    Arduino.sendCommand(arduino_cmd)
+    if (receivedCommand == ON || ac_state.state == 1) {
+      if (receivedCommand == ON) {
+        arduino_cmd += "1,"
+        ac_i_feel.state = OFF
+      } else {
+        arduino_cmd += "0,"
+      }
+
+      arduino_cmd += ac_mode.state + "," + ac_fan.state + "," + "0" + ","
+
+      if (ac_i_feel.state == ON) {
+          arduino_cmd += "1,"
+      } else {
+          arduino_cmd += "0,"
+      }
+
+      arduino_cmd += ac_temp.state + ",#"
+
+      Arduino.sendCommand(arduino_cmd)
+    }
 end
